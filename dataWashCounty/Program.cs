@@ -10,6 +10,7 @@ namespace dataWashCounty
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("first commit");
         }
     }
 }
