@@ -26,7 +26,7 @@ namespace dataWashCounty
             };
             return searchGroup;
         }
-        public IEnumerable<string> SearchID(string searchTerm)
+        public Tuple<IEnumerable<string>,bool> SearchID(string searchTerm)
         {
             string rawHtmlIDList = findTaxLotID(searchTerm).Result;
             //Console.WriteLine(rawHtmlIDList);
@@ -34,7 +34,10 @@ namespace dataWashCounty
             htmlDoc.LoadHtml(rawHtmlIDList);
             HtmlNodeCollection taxLotIDNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table//tr/td/table//tr//td//a");
             var IDNumber = taxLotIDNode.Select(node => node.InnerText);
-            return IDNumber;
+            bool resultCap = false;
+            resultCap = rawHtmlIDList.Contains("Search exceeded the maximum return limit.");
+            Console.WriteLine("in searchID " + resultCap.ToString());
+            return new Tuple<IEnumerable<string>,bool>(IDNumber,resultCap);
         }
         public static async Task<string> findTaxLotID(string searchTerm)
         {
@@ -53,9 +56,20 @@ namespace dataWashCounty
                 var content = new FormUrlEncodedContent(values);
                 //HttpRequestHeaders atPostHeader = client.DefaultRequestHeaders; // what does this even do?
                 var response = await client.PostAsync(@"/GIS/index.cfm?id=20&sid=2", content);
+                Console.WriteLine("accessed site");
                 responseString = await response.Content.ReadAsStringAsync();
             }
             return responseString;
+        }
+        public bool findResultCap (string searchTerm)
+        {
+            bool resultCap = false;
+            string rawHtmlIDList = findTaxLotID(searchTerm).Result;
+            //Console.WriteLine(rawHtmlIDList);
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(rawHtmlIDList);
+            resultCap = rawHtmlIDList.Contains("Search exceeded the maximum return limit.");
+            return resultCap;
         }
 
     }
