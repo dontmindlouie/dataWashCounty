@@ -21,23 +21,31 @@ namespace dataWashCounty
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nPress enter to cycle through taxLotIDs");
+
+
+
+
+            Console.WriteLine("\nPress enter to extract taxLotIDs");
             Console.ReadLine();
             ExtractTaxlot p = new ExtractTaxlot();
             var searchGroup = p.InitSearchGroup(); //initialize list of possible search term combinations
             Console.WriteLine("\nEnd of search term list.");
 
-            Console.WriteLine("\nPress Enter to extract taxlotID html");
+            Console.WriteLine("\nPress Enter to parse taxlotID html for data");
             Console.ReadLine();
             bool resultCap = false;
             string searchTerm = searchGroup[0][0];
             Tuple<IEnumerable<string>,bool> taxLotIDList = p.SearchID(searchTerm);
-            //foreach(var entry in taxLotIDList){
-            //    Console.WriteLine(entry);
-            //}
+            Console.WriteLine("\nPress enter to temporarily save data");
+            Console.ReadLine();
+            List<string>[,] multiList;
+            Dictionary<string,string> bob = new Dictionary<string,string>();
+
+            Console.WriteLine("\nPress enter to save data to database");
             Console.WriteLine(taxLotIDList.Item2);
             Console.WriteLine("\nEnd. Press Enter to Exit.");
             Console.ReadLine();
+
         }
     }
 

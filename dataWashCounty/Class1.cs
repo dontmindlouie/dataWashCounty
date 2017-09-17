@@ -10,7 +10,7 @@ namespace dataWashCounty
 {
     class ExtractTaxlot
     {
-        public List<List<string>> InitSearchGroup()
+        public List<List<string>> InitSearchGroup() //is using a method to initialize a variable bad practice?
         {
             List<List<string>> searchGroup = new List<List<string>>
             {
@@ -25,6 +25,7 @@ namespace dataWashCounty
                 new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }
             };
             return searchGroup;
+            //test
         }
         public Tuple<IEnumerable<string>,bool> SearchID(string searchTerm)
         {
@@ -61,16 +62,6 @@ namespace dataWashCounty
             }
             return responseString;
         }
-        public bool findResultCap (string searchTerm)
-        {
-            bool resultCap = false;
-            string rawHtmlIDList = findTaxLotID(searchTerm).Result;
-            //Console.WriteLine(rawHtmlIDList);
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(rawHtmlIDList);
-            resultCap = rawHtmlIDList.Contains("Search exceeded the maximum return limit.");
-            return resultCap;
-        }
-
+        public void ExtractTaxLotData(IEnumerable<string> IDNumber) { }
     }
 }
