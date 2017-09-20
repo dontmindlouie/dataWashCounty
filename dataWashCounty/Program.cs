@@ -21,21 +21,26 @@ namespace dataWashCounty
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nPress enter to cycle through taxLotIDs");
-            Console.ReadLine();
             ExtractTaxlot p = new ExtractTaxlot();
-            var searchGroup = p.InitSearchGroup(); //initialize list of possible search term combinations
-            Console.WriteLine("\nEnd of search term list.");
 
-            Console.WriteLine("\nPress Enter to extract taxlotID html");
-            Console.ReadLine();
-            bool resultCap = false;
+            //Initialize possible tax lot ID combinations
+            var searchGroup = p.InitSearchGroup();
             string searchTerm = searchGroup[0][0];
-            Tuple<IEnumerable<string>,bool> taxLotIDList = p.SearchID(searchTerm);
-            //foreach(var entry in taxLotIDList){
-            //    Console.WriteLine(entry);
-            //}
-            Console.WriteLine(taxLotIDList.Item2);
+
+            //Run through possible tax lot ID combinations
+            Tuple<IEnumerable<string>, bool> taxLotIDList = p.SearchID(searchTerm);
+
+            Console.WriteLine("\nFinished Searching for TaxLotIDs");
+            Console.WriteLine("\nNow extracting data from valid taxlot IDs\n");
+
+            //Create temporary tax lot data storage
+            var taxLotTempData = p.CreateTaxLotTempData(taxLotIDList.Item1);
+
+            //Extract data from specified valid tax lot ID
+            taxLotTempData = p.ExtractTaxLotData(taxLotIDList.Item1, taxLotTempData);
+
+
+            Console.WriteLine("\nSite Address of taxLots extracted: " + taxLotTempData[0]["SiteAddress"]);
             Console.WriteLine("\nEnd. Press Enter to Exit.");
             Console.ReadLine();
         }

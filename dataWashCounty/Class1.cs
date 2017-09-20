@@ -8,7 +8,7 @@ using HtmlAgilityPack;
 
 namespace dataWashCounty
 {
-    class ExtractTaxlot
+    public class ExtractTaxlot
     {
         public List<List<string>> InitSearchGroup()
         {
@@ -28,15 +28,23 @@ namespace dataWashCounty
         }
         public Tuple<IEnumerable<string>,bool> SearchID(string searchTerm)
         {
+            //Parameters    The search term to put into the website's search function to obtain a list of valid tax lot IDs
+            //Functions     Access the website and use the search term to access list of valid tax lot IDs
+            //              Extract list of valid tax lot IDs
+            //              Figure out if the search result reached maximum capacity
+            //Returns       List of valid tax lot IDs as an IEnumerable
+            //              Status of the search's maximum capacity. True if capacity is reached, False if not.
+            Console.WriteLine("\nTerm to search: " + searchTerm);
             string rawHtmlIDList = findTaxLotID(searchTerm).Result;
-            //Console.WriteLine(rawHtmlIDList);
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(rawHtmlIDList);
             HtmlNodeCollection taxLotIDNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table//tr/td/table//tr//td//a");
             var IDNumber = taxLotIDNode.Select(node => node.InnerText);
+            Console.WriteLine("First valid taxlot ID of thi search: " + IDNumber.ElementAt(0));
+            Console.WriteLine("Count of valid taxlot IDs of this search: " + IDNumber.Count());
             bool resultCap = false;
             resultCap = rawHtmlIDList.Contains("Search exceeded the maximum return limit.");
-            Console.WriteLine("in searchID " + resultCap.ToString());
+            Console.WriteLine("Result Capacity Reached: " + resultCap.ToString());
             return new Tuple<IEnumerable<string>,bool>(IDNumber,resultCap);
         }
         public static async Task<string> findTaxLotID(string searchTerm)
@@ -56,20 +64,34 @@ namespace dataWashCounty
                 var content = new FormUrlEncodedContent(values);
                 //HttpRequestHeaders atPostHeader = client.DefaultRequestHeaders; // what does this even do?
                 var response = await client.PostAsync(@"/GIS/index.cfm?id=20&sid=2", content);
-                Console.WriteLine("accessed site");
+                Console.WriteLine("Accessed site");
                 responseString = await response.Content.ReadAsStringAsync();
             }
             return responseString;
         }
-        public bool findResultCap (string searchTerm)
+        public List<Dictionary<string,string>> CreateTaxLotTempData(IEnumerable<string> validTaxLotIDs)
         {
-            bool resultCap = false;
-            string rawHtmlIDList = findTaxLotID(searchTerm).Result;
-            //Console.WriteLine(rawHtmlIDList);
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(rawHtmlIDList);
-            resultCap = rawHtmlIDList.Contains("Search exceeded the maximum return limit.");
-            return resultCap;
+            List<Dictionary<string, string>> taxLotTempData = new List<Dictionary<string, string>>();
+            return taxLotTempData;
+        }
+        public List<Dictionary<string,string>> ExtractTaxLotData(IEnumerable<string> validTaxLotIDs, List<Dictionary<string,string>> taxLotTempData)
+        {
+            //Parameters    List of valid taxlot ids to extract data from 
+            //              Sets of previous data to put data into
+            //Functions     Access website with the tax lot ID
+            //              Extract data from the website
+            //              Adds another key/value pair 
+            //Returns       The list of key/value pairs that contains the tax lot data
+            Console.WriteLine("TaxLot ID to extract data from: " + validTaxLotIDs.ElementAt(0));
+            HtmlWeb hw = new HtmlWeb();
+            HtmlDocument htmlDoc = hw.Load("http://washims.co.washington.or.us/GIS/index.cfm?id=30&sid=3&IDValue=" + validTaxLotIDs.ElementAt(0));
+            Console.WriteLine("Accessed site\n");
+            HtmlNodeCollection siteAddressNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[2]/td[2]");
+            var siteAddress = siteAddressNode.Select(node => node.InnerText);
+            taxLotTempData.Add(new Dictionary<string, string>());
+            taxLotTempData[0].Add("TaxLotID", validTaxLotIDs.ElementAt(0));
+            taxLotTempData[0].Add("SiteAddress", siteAddress.ElementAt(0));
+            return taxLotTempData;
         }
 
     }
