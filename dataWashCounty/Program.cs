@@ -22,10 +22,12 @@ namespace dataWashCounty
         static void Main(string[] args)
         {
             ExtractTaxlot p = new ExtractTaxlot();
+            Console.WriteLine("Begin searching for valid taxLotIDs");
 
             //Initialize possible tax lot ID combinations
             var searchGroup = p.InitSearchGroup();
             string searchTerm = searchGroup[0][0];
+
 
             //Run through possible tax lot ID combinations
             Tuple<IEnumerable<string>, bool> taxLotIDList = p.SearchID(searchTerm);
@@ -39,8 +41,27 @@ namespace dataWashCounty
             //Extract data from specified valid tax lot ID
             taxLotTempData = p.ExtractTaxLotData(taxLotIDList.Item1, taxLotTempData);
 
+            Console.WriteLine("Addresses of extracted tax Lots\n");
+            Console.WriteLine(taxLotTempData[0]["SiteAddress"]);
+            Console.WriteLine(taxLotTempData[0]["PropertyID"]);
+            Console.WriteLine(taxLotTempData[0]["PropertyClass"]);
+            Console.WriteLine(taxLotTempData[0]["NeighCode"]);
+            Console.WriteLine(taxLotTempData[0]["LatLong"]);
+            Console.WriteLine(taxLotTempData[0]["RollDate"]);
+            Console.WriteLine(taxLotTempData[0]["TaxCode"]);
+            Console.WriteLine(taxLotTempData[0]["MarketLandValue"]);
+            Console.WriteLine(taxLotTempData[0]["MarketBldgValue"]);
+            Console.WriteLine(taxLotTempData[0]["SpecialMarketValue"]);
+            Console.WriteLine(taxLotTempData[0]["MarketTotalValue"]);
+            Console.WriteLine(taxLotTempData[0]["TaxableAssessedValue"]);
+            Console.WriteLine(taxLotTempData[0]["Legal"]);
+            Console.WriteLine(taxLotTempData[0]["LotSize"]);
+            Console.WriteLine(taxLotTempData[0]["BldgSqFt"]);
+            Console.WriteLine(taxLotTempData[0]["YearBuilt"]);
 
-            Console.WriteLine("\nSite Address of taxLots extracted: " + taxLotTempData[0]["SiteAddress"]);
+            //Save data into database
+            p.SaveTaxLotData(taxLotTempData);
+
             Console.WriteLine("\nEnd. Press Enter to Exit.");
             Console.ReadLine();
         }

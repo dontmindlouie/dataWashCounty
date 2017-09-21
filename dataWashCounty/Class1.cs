@@ -88,10 +88,73 @@ namespace dataWashCounty
             Console.WriteLine("Accessed site\n");
             HtmlNodeCollection siteAddressNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[2]/td[2]");
             var siteAddress = siteAddressNode.Select(node => node.InnerText);
+            HtmlNodeCollection propertyIDNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[4]/td[2]");
+            var propertyID = propertyIDNode.Select(node => node.InnerText);
+            HtmlNodeCollection propertyClassNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[5]/td[2]/text()");
+            var propertyClass = propertyClassNode.Select(node => node.InnerText);
+            HtmlNodeCollection neighCodeNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[6]/td[2]");
+            var neighCode = neighCodeNode.Select(node => node.InnerText);
+            HtmlNodeCollection latLongNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[3]//tr[7]/td[2]");
+            var latLong = latLongNode.Select(node => node.InnerText);
+            HtmlNodeCollection saleDateNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[4]//tr[3]/td[1]");
+            var saleDate = saleDateNode.Select(node => node.InnerText);
+            HtmlNodeCollection saleInstrNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[4]//tr[3]/td[2]");
+            var saleInstr = saleInstrNode.Select(node => node.InnerText);
+            HtmlNodeCollection saleDeedNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[4]//tr[3]/td[3]");
+            var saleDeed = saleDeedNode.Select(node => node.InnerText);
+            HtmlNodeCollection salePriceNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[4]//tr[3]/td[4]");
+            var salePrice = salePriceNode.Select(node => node.InnerText);
+            HtmlNodeCollection rollDateNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[2]/td[2]");
+            var rollDate = rollDateNode.Select(node => node.InnerText);
+            HtmlNodeCollection taxCodeNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[3]/td[2]");
+            var taxCode = taxCodeNode.Select(node => node.InnerText);
+            HtmlNodeCollection marketLandValueNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[4]/td[2]");
+            var marketLandValue = marketLandValueNode.Select(node => node.InnerText);
+            HtmlNodeCollection marketBldgValueNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[5]/td[2]");
+            var marketBldgValue = marketBldgValueNode.Select(node => node.InnerText);
+            HtmlNodeCollection specialMarketValueNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[6]/td[2]");
+            var specialMarketValue = specialMarketValueNode.Select(node => node.InnerText);
+            HtmlNodeCollection marketTotalValueNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[7]/td[2]");
+            var marketTotalValue = marketTotalValueNode.Select(node => node.InnerText);
+            HtmlNodeCollection taxableAssessedValueNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[8]/td[2]");
+            var taxableAssessedValue = taxableAssessedValueNode.Select(node => node.InnerText);
+            HtmlNodeCollection legalNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[9]/td[2]");
+            var legal = legalNode.Select(node => node.InnerText);
+            HtmlNodeCollection lotSizeNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[10]/td[2]");
+            var lotSize = lotSizeNode.Select(node => node.InnerText);
+            HtmlNodeCollection bldgSqFtNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[11]/td[2]");
+            var bldgSqFt = bldgSqFtNode.Select(node => node.InnerText);
+            HtmlNodeCollection yearBuiltNode = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]//tr/td[3]/table[5]//tr[12]/td[2]");
+            var yearBuilt = yearBuiltNode.Select(node => node.InnerText);
             taxLotTempData.Add(new Dictionary<string, string>());
             taxLotTempData[0].Add("TaxLotID", validTaxLotIDs.ElementAt(0));
             taxLotTempData[0].Add("SiteAddress", siteAddress.ElementAt(0));
+            taxLotTempData[0].Add("PropertyID", propertyID.ElementAt(0));
+            taxLotTempData[0].Add("PropertyClass", propertyClass.ElementAt(0));
+            taxLotTempData[0].Add("NeighCode", neighCode.ElementAt(0));
+            taxLotTempData[0].Add("LatLong", latLong.ElementAt(0));
+            taxLotTempData[0].Add("SaleDate", saleDate.ElementAt(0));
+            taxLotTempData[0].Add("SaleInstr", saleInstr.ElementAt(0));
+            taxLotTempData[0].Add("SaleDeed", saleDeed.ElementAt(0));
+            taxLotTempData[0].Add("SalePrice", salePrice.ElementAt(0));
+            taxLotTempData[0].Add("RollDate", rollDate.ElementAt(0));
+            taxLotTempData[0].Add("TaxCode", taxCode.ElementAt(0));
+            taxLotTempData[0].Add("MarketLandValue", marketLandValue.ElementAt(0));
+            taxLotTempData[0].Add("MarketBldgValue", marketBldgValue.ElementAt(0));
+            taxLotTempData[0].Add("SpecialMarketValue", specialMarketValue.ElementAt(0));
+            taxLotTempData[0].Add("MarketTotalValue", marketTotalValue.ElementAt(0));
+            taxLotTempData[0].Add("TaxableAssessedValue", taxableAssessedValue.ElementAt(0));
+            taxLotTempData[0].Add("Legal", legal.ElementAt(0));
+            taxLotTempData[0].Add("LotSize", lotSize.ElementAt(0));
+            taxLotTempData[0].Add("BldgSqFt", bldgSqFt.ElementAt(0));
+            taxLotTempData[0].Add("YearBuilt", yearBuilt.ElementAt(0));
+
             return taxLotTempData;
+        }
+        public void SaveTaxLotData(List<Dictionary<string,string>> taxLotTempData) {
+            string connectstring = "Data Source=DESKTOP-5LVATAU\\SQLEXPRESS;Initial Catalog=TestDB;Integrated Security=True";
+            //string insertQuery = "I"
+
         }
 
     }
